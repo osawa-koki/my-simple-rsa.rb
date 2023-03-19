@@ -1,0 +1,23 @@
+name: Check outdated package
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  check-outdated-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.1'
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
+      - name: Check outdated package
+        run: bundle outdated

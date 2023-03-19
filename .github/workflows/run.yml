@@ -1,0 +1,26 @@
+name: Run ruby app
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.1'
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
+      - name: Run
+        run: |
+          ruby ./main.rb --prime1 11 --prime2 17 --message "Hello World!!!"
+          ruby ./main.rb --prime1 13 --prime2 19 --message "こんにちは！"
+          ruby ./main.rb --prime1 23 --prime2 101 --message "你好！"
