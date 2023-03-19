@@ -1,3 +1,4 @@
+require 'uri'
 require_relative './fn.modExp'
 
 # 秘密鍵を用いて暗号化されたデータを復号します。
@@ -8,10 +9,12 @@ require_relative './fn.modExp'
 def decrypt(private_key, encrypted)
   n, d = private_key
   block_size = (Math.log10(n) / Math.log10(2)).floor - 1
-  encrypted_blocks = encrypted.scan(/.{1,#{block_size + 1}}/)
-  decrypted_chars = encrypted_blocks.map { |block| mod_exp(block.to_i, d, n) }
+  encrypted_blocks = encrypted.scan(/.{1,#{block_size + 1}}/) || []
+  decrypted_chars = encrypted_blocks.map do |block|
+    num = block.to_i
+    mod_exp(num, d, n)
+  end
   decrypted_string = decrypted_chars.pack('U*')
   decoded_string = URI.decode_www_form_component(decrypted_string)
   decoded_string
 end
-
