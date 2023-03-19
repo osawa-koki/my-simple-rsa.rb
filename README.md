@@ -20,3 +20,11 @@ bundle init
 ```shell
 bundle add rspec
 ```
+
+---
+
+テストツール(RSpec)の初期化。  
+
+```shell
+rspec --init
+```
